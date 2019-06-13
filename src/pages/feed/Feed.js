@@ -13,10 +13,16 @@ class Feed extends Component {
   state = {
     feed: []
   };
+
+  handleLike = async e => {
+    await api.post(`posts/${e}/like`);
+  };
+
   async componentDidMount() {
     const { data } = await api.get("posts");
     this.setState({ feed: data });
   }
+
   render() {
     const { feed } = this.state;
     return (
@@ -33,7 +39,9 @@ class Feed extends Component {
             <img src={`http://localhost:3001/files/${post.image}`} alt="" />
             <footer>
               <div className="actions">
-                <img src={like} alt="like" />
+                <button type="button" onClick={() => this.handleLike(post._id)}>
+                  <img src={like} alt="like" />
+                </button>
                 <img src={comment} alt="comment" />
                 <img src={send} alt="send" />
               </div>
